@@ -35,7 +35,7 @@ class XMLBuilder {
     @Override
     String toString() {
         DOMSource domSource = new DOMSource(root.firstChild)
-        StringWriter writer = new StringWriter()
+        StringWriter writer = new StringWriter()  // TODO can conserve these resources
         StreamResult result = new StreamResult(writer)
 
         transformer.transform(domSource, result)

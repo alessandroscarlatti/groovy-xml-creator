@@ -43,6 +43,11 @@ class ElementHandler {
         addNewElement(name, traverseElement)
     }
 
+    // TODO teach this metaclass about those methods
+    // overrides are OK even across multiple classes.
+    // we would have Spring managed creators...
+    // OR we could use a single instance, probably better in the case
+    // of hundreds of documnets...
     def methodMissing(String name, args) {
 //        println "called Delegate ${this.thisElement.nodeName} with method $name"
 

@@ -24,7 +24,7 @@ class XMLCreatorGroovy3 {
 
                 thing1 {
                     thing2 {
-                        thing4
+                        thing4  // TODO what happens if I define a metaclass property thing4, but then later use a metaclass method thing4?  Does that work?
                         thing4
                         thing5 {
                             for (int i = 0; i < 9; i++) {
