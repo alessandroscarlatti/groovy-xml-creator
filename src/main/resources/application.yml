@@ -1,0 +1,12 @@
+spring:
+  output:
+    ansi:
+      enabled: detect
+
+phil:
+  name: phillip
+  nickname: phillie
+
+annie:
+  name: annabelle
+  nickname: annie
