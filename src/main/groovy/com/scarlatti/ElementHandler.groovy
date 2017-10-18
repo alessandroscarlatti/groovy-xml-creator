@@ -31,6 +31,25 @@ class ElementHandler {
         return thisElement
     }
 
+    // TODO teach this metaclass about those methods
+    // overrides are OK even across multiple classes.
+    // we would have Spring managed creators...
+    // OR we could use a single instance, probably better in the case
+    // of hundreds of documents...
+    def methodMissing(String name, args) {
+//        println "called Delegate ${this.thisElement.nodeName} with method $name"
+
+        // add the method
+
+        handleTag(name, args)
+    }
+
+    def propertyMissing(String name) {
+//        println "called Delegate ${thisElement.nodeName} for property $name"
+
+        handleTag(name)
+    }
+
     void createElement(String name) {
         addEmptyNodeWithOneTag(name)
     }
@@ -43,14 +62,7 @@ class ElementHandler {
         addNewElement(name, traverseElement)
     }
 
-    // TODO teach this metaclass about those methods
-    // overrides are OK even across multiple classes.
-    // we would have Spring managed creators...
-    // OR we could use a single instance, probably better in the case
-    // of hundreds of documnets...
-    def methodMissing(String name, args) {
-//        println "called Delegate ${this.thisElement.nodeName} with method $name"
-
+    void handleTag(String name, Object[] args = []) {
         if (args.length == 0)
             addEmptyNodeWithOneTag(name)
 
@@ -60,14 +72,6 @@ class ElementHandler {
         else if (args[0] instanceof Closure)
             addNewElement(name, (Closure) args[0])
     }
-
-
-    def propertyMissing(String name) {
-//        println "called Delegate ${thisElement.nodeName} for property $name"
-
-        addEmptyNodeWithOneTag(name)
-    }
-
 
     void addEmptyNodeWithOneTag(String name) {
         Element element = thisElement.ownerDocument.createElement(name)

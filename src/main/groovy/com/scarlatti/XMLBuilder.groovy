@@ -18,6 +18,9 @@ class XMLBuilder {
 
     Element root
     ElementHandler handler
+    DOMSource domSource
+    StringWriter writer
+    StreamResult result
     Transformer transformer
 
     XMLBuilder() {
@@ -30,14 +33,19 @@ class XMLBuilder {
         TransformerFactory tf = TransformerFactory.newInstance()
         transformer = tf.newTransformer()
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes")
+
+        domSource = new DOMSource()
+        writer = new StringWriter()
+        result = new StreamResult(writer)
     }
 
     @Override
     String toString() {
-        DOMSource domSource = new DOMSource(root.firstChild)
-        StringWriter writer = new StringWriter()  // TODO can conserve these resources
-        StreamResult result = new StreamResult(writer)
 
+        writer.buffer.setLength(0)
+        writer.buffer.trimToSize()
+
+        domSource.node = root.firstChild
         transformer.transform(domSource, result)
 
         return writer.toString()
