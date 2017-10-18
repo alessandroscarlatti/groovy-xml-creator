@@ -23,6 +23,8 @@ class XMLBuilder {
     StreamResult result
     Transformer transformer
 
+    boolean withPrettyPrint = false
+
     XMLBuilder() {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance()
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder()
@@ -44,6 +46,7 @@ class XMLBuilder {
 
         writer.buffer.setLength(0)
         writer.buffer.trimToSize()
+//        writer.buffer.setLength(2000)  // THIS IS INEFFICIENT!!!
 
         domSource.node = root.firstChild
         transformer.transform(domSource, result)
@@ -59,7 +62,7 @@ class XMLBuilder {
     }
 
     XMLBuilder xml(Closure traverseXML) {
-        while (root.hasChildNodes()) {
+        if (root.hasChildNodes()) {
             root.removeChild(root.firstChild)
         }
 
@@ -72,8 +75,11 @@ class XMLBuilder {
     }
 
     XMLBuilder withPrettyPrint() {
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes")
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
+
+        if (!withPrettyPrint) {
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes")
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
+        }
 
         return this
     }
