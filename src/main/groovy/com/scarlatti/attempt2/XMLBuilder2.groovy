@@ -1,5 +1,6 @@
-package com.scarlatti
+package com.scarlatti.attempt2
 
+import com.scarlatti.attempt1.ElementHandler
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
@@ -14,7 +15,7 @@ import javax.xml.transform.stream.StreamResult
 /**
  * Created by pc on 10/14/2017.
  */
-class XMLBuilder {
+class XMLBuilder2 {
 
     Element root
     ElementHandler handler
@@ -25,7 +26,7 @@ class XMLBuilder {
 
     boolean withPrettyPrint = false
 
-    XMLBuilder() {
+    XMLBuilder2() {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance()
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder()
         Document doc = docBuilder.newDocument()
@@ -39,6 +40,20 @@ class XMLBuilder {
         domSource = new DOMSource()
         writer = new StringWriter()
         result = new StreamResult(writer)
+
+//        // TODO teach the metaclass about this property?
+//        ElementHandler.metaClass.propertyMissing = {String name ->
+//            delegate.handleTag(name)
+//        }
+//
+//        // teach the metaclass about this method
+//        ElementHandler.metaClass.methodMissing = { String name, args ->
+////            ElementHandler.metaClass."$name" = { tagArgs ->
+////                delegate.handleTag(name, tagArgs)
+////            }
+//
+//            delegate.handleTag(name, args)
+//        }
     }
 
     @Override
@@ -51,30 +66,32 @@ class XMLBuilder {
         domSource.node = root.firstChild
         transformer.transform(domSource, result)
 
+        domSource.node = null // is this necessary?
+
         return writer.toString()
     }
 
-    static XMLBuilder createXML(Closure traverseXML) {
-        XMLBuilder builder = new XMLBuilder()
+    static XMLBuilder2 createXML(Closure traverseXML) {
+        XMLBuilder2 builder = new XMLBuilder2()
         builder.xml(traverseXML)
 
         return builder
     }
 
-    XMLBuilder xml(Closure traverseXML) {
+    XMLBuilder2 xml(Closure traverseXML) {
         if (root.hasChildNodes()) {
-            root.removeChild(root.firstChild)
+            root.removeChild(root.firstChild)  // in case there are multiple nodes?
         }
 
         if (handler == null) {
-            ElementHandler handler = new ElementHandler(root, traverseXML)
+            ElementHandler handler = new ElementHandler(root, traverseXML)  // can I reuse anything here?
             handler.handleElement()
         }
 
         return this
     }
 
-    XMLBuilder withPrettyPrint() {
+    XMLBuilder2 withPrettyPrint() {
 
         if (!withPrettyPrint) {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes")
