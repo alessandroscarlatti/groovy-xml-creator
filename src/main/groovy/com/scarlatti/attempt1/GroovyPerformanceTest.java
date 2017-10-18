@@ -11,7 +11,7 @@ class GroovyPerformanceTest {
 
         Long sum = 0L;
 
-        Do10000XMLSWithGroovy do10000XMLSWithGroovy = new Do10000XMLSWithGroovy();
+        Do10000XMLSWithGroovyStax do10000XMLSWithGroovy = new Do10000XMLSWithGroovyStax();
 
         for (int count = 0; count < 50; count++) {
             Long startTime = System.nanoTime();
