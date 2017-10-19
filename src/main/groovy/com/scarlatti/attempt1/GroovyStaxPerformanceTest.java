@@ -5,7 +5,7 @@ import java.time.Duration;
 /**
  * Created by pc on 10/17/2017.
  */
-class GroovyPerformanceTest {
+class GroovyStaxPerformanceTest {
 
     public static void main(String[] args) {
 

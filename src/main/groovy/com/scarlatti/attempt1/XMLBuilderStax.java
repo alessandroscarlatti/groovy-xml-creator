@@ -52,14 +52,14 @@ public class XMLBuilderStax {
 
     }
 
-    static XMLBuilderStax createXML(Closure<String> traverseXML) throws Exception {
+    static XMLBuilderStax createXML(Closure traverseXML) throws Exception {
         XMLBuilderStax builder = new XMLBuilderStax();
         builder.xml(traverseXML);
 
         return builder;
     }
 
-    public XMLBuilderStax xml(Closure<String> traverseXML) throws Exception {
+    public XMLBuilderStax xml(Closure traverseXML) throws Exception {
 
         xmlStreamWriter.flush();
         writer.getBuffer().setLength(0);
@@ -70,17 +70,17 @@ public class XMLBuilderStax {
         return this;
     }
 
-    private void handleElement(Closure<String> traverseElement) throws Exception {
+    private void handleElement(Closure traverseElement) throws Exception {
         traverseElement.setDelegate(handler);
         traverseElement.setResolveStrategy(Closure.DELEGATE_FIRST);
 
-        String text = traverseElement.call();
+        Object val = traverseElement.call();
 
-        if (text != null)
-            addTextValue(text);
+        if (val != null) {
+            addTextValue(String.valueOf(val));
+        }
     }
 
-    @SuppressWarnings("unchecked")
     void handleTag(String name, Object[] args) throws Exception {
         if (args == null)
             addEmptyNodeWithOneTag(name);
@@ -90,7 +90,7 @@ public class XMLBuilderStax {
 
         else if (args[0] instanceof Closure)
 
-            addNewElement(name, (Closure<String>) args[0]);
+            addNewElement(name, (Closure) args[0]);
     }
 
     void addEmptyNodeWithOneTag(String name) throws Exception {
@@ -107,7 +107,7 @@ public class XMLBuilderStax {
         xmlStreamWriter.writeCharacters(text);
     }
 
-    void addNewElement(String name, Closure<String> traverseElement) throws Exception {
+    void addNewElement(String name, Closure traverseElement) throws Exception {
 
         xmlStreamWriter.writeStartElement(name);
         handleElement(traverseElement);  // sort of recursive call

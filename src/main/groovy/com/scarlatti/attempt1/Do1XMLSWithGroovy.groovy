@@ -6,21 +6,21 @@ package com.scarlatti.attempt1
 class Do1XMLSWithGroovy {
 
     public static void main(String[] args) {
-        new Do1XMLSWithGroovy().do1XMLSWithGroovy()
+        new Do1XMLSWithGroovy().do2XMLSWithGroovy()
     }
 
     void do1XMLSWithGroovy() {
 
         XMLBuilderStax xmlBuilder = XMLBuilderStax.defaultXMLBuilderStaxWithPrettyPrinter()
 
-        for (int count = 0; count < 3; count++) {
+        for (int count = 0; count < 1; count++) {
             println xmlBuilder.xml {
                 boolean shouldCreateElementX = false
 
                 thing1 {
                     thing2 {
                         thing4
-                        thing4 { "" }
+                        thing4 ""
                         thing5 {
                             for (int i = 0; i < 9; i++) {
                                 if (shouldCreateElementX) {
@@ -42,6 +42,35 @@ class Do1XMLSWithGroovy {
 
             }.toString()
         }
+    }
+
+    void do2XMLSWithGroovy() {
+
+        XMLBuilderStax xmlBuilder = XMLBuilderStax.defaultXMLBuilderStaxWithPrettyPrinter()
+
+        println xmlBuilder.xml {
+            boolean shouldCreateElementX = false
+
+            Thing1 {
+                Thing2 {
+                    Thing4
+                    Thing4 { "" }
+                    Thing5 {
+                        for (int i = 0; i < 9; i++) {
+                            if (shouldCreateElementX) {
+                                ElementX { i }
+                            } else {
+                                ElementY { i }
+                            }
+                            Separator { "===" }
+                            shouldCreateElementX = !shouldCreateElementX
+                        }
+                    }
+                }
+            }
+
+        }.toString()
+
     }
 
 }
