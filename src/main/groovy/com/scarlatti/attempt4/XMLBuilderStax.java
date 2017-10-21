@@ -1,8 +1,11 @@
-package com.scarlatti.attempt1;
+package com.scarlatti.attempt4;
 
 //import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 //import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
+
+//import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 import groovy.lang.Closure;
+
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.StringWriter;
@@ -16,9 +19,12 @@ public class XMLBuilderStax {
     private StringWriter writer;
     private XMLStreamWriter xmlStreamWriter;
 
+    private int resolveStrategy = Closure.OWNER_FIRST;
+
     private XMLBuilderStax() throws Exception {
         writer = new StringWriter();
         handler = new ElementHandlerStax(this);
+        handler.addMethodMissingAndPropertyMissing();
     }
 
     public static XMLBuilderStax defaultXMLBuilderStax() throws Exception {
@@ -40,16 +46,28 @@ public class XMLBuilderStax {
         return xmlBuilderStax;
     }
 
-    @Override
-    public String toString() {
+    public String asString() {
 
         try {
+
+            if (resolveStrategy == Closure.OWNER_FIRST) {
+                // set for all the other iterations
+                resolveStrategy = Closure.DELEGATE_FIRST;
+                handler.removeMethodMissingAndPropertyMissing();
+            }
+
             xmlStreamWriter.flush();
             return writer.toString();
         } catch (Exception e){
             e.printStackTrace();
             return "Exception caught! " + e;
         }
+
+    }
+
+    private void prepareForFutureIterations() {
+        resolveStrategy = Closure.DELEGATE_FIRST;
+
 
     }
 
@@ -73,7 +91,9 @@ public class XMLBuilderStax {
 
     private void handleElement(Closure traverseElement) throws Exception {
         traverseElement.setDelegate(handler);
-        traverseElement.setResolveStrategy(Closure.OWNER_FIRST);  // OWNER_FIRST is about three times slower!!
+
+        // OWNER_FIRST first time, DELEGATE_FIRST after that.
+        traverseElement.setResolveStrategy(resolveStrategy);  // OWNER_FIRST is about three times slower!!
 
         Object val = traverseElement.call();
 

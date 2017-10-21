@@ -1,47 +1,63 @@
-package com.scarlatti.attempt1
-
+package com.scarlatti.attempt4
 /**
  * Created by pc on 10/18/2017.
  */
 class Do10000XMLSWithGroovyStax {
 
-    void do10000XMLSWithGroovy_old() {
+    boolean shouldCreateElementX = false
 
-        XMLBuilderStax xmlBuilder = XMLBuilderStax.defaultXMLBuilderStaxWithPrettyPrinter()
+    void do10000XMLSWithGroovy() {
 
-        for (int count = 0; count < 10000; count++) {
-            xmlBuilder.xml {
-                boolean shouldCreateElementX = false
+        com.scarlatti.attempt4.XMLBuilderStax xmlBuilder = com.scarlatti.attempt4.XMLBuilderStax.defaultXMLBuilderStaxWithPrettyPrinter()
 
-                thing1 {
-                    thing2 {
-                        thing4
-                        thing4 { "qwer" }
-                        thing5 {
+        for (int count = 0; count < 3; count++) {
+
+            def xml = {String name, Closure c -> } << {String name -> }
+
+            println xmlBuilder.xml {
+
+                xml("Thing1") {
+                    xml("thing2") {
+
+                        xml("thing4")
+                        xml("thing4") { "qwer" }
+                        xml("thing5") {
                             for (int i = 0; i < 9; i++) {
                                 if (shouldCreateElementX) {
-                                    PcPullChecks {
+                                    xml("SomethingSomething") {
                                         i % 3 == 0 ? "Y" : "N"
                                     }
                                 } else {
-                                    Y { "what do you know Y" }
-                                    Z
+                                    "Y" >> { "what do you know Y" }
+                                    "Z" >> {}
                                     ZX { "asdf" }
                                     createElement("this") { "this is an element" }
                                 }
                                 shouldCreateElementX = !shouldCreateElementX
                             }
-
                         }
                     }
                 }
-            }.toString()
+            }.asString()  // TODO important!! asString not toString
         }
     }
 
-    void do10000XMLSWithGroovy() {
+    void doXml() {
+        if (shouldCreateElementX) {
+            PcPullChecks {
+                i % 3 == 0 ? "Y" : "N"
+            }
+        } else {
+            Y { "what do you know Y" }
+            Z
+            ZX { "asdf" }
+            createElement("this") { "this is an element" }
+        }
+    }
 
-        XMLBuilderStax xmlBuilder = XMLBuilderStax.defaultXMLBuilderStaxWithPrettyPrinter()
+    void do10000XMLSWithGroovy_old() {
+
+        com.scarlatti.attempt4.XMLBuilderStax xmlBuilder = com.scarlatti.attempt4.XMLBuilderStax.defaultXMLBuilderStaxWithPrettyPrinter()
 
         for (int count = 0; count < 10000; count++) {
             xmlBuilder.xml {
