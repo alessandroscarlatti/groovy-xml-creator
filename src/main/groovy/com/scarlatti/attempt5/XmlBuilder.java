@@ -24,14 +24,14 @@ public class XmlBuilder {
         writer = new StringWriter();
     }
 
-    public static XmlBuilder defaultXmlBuilder() throws Exception {
+    public static Handler defaultXmlBuilder() throws Exception {
         XmlBuilder xmlBuilder = new XmlBuilder();
 
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
         xmlBuilder.xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(xmlBuilder.writer);
         // TODO close this stream, make this class implement closeable (spring context would close it)
 
-        return xmlBuilder;
+        return new Handler(null, xmlBuilder);
     }
 
     public XmlBuilder root(String name, Closure xml) {  // TODO could have empty root
@@ -92,21 +92,6 @@ public class XmlBuilder {
 
 
     }
-
-    public Closure getXmlBuilder(Object owner) {
-        return new Handler(owner, this);
-    }
-
-//    public Closure xml(Closure traverseXML) throws Exception {
-//
-//        xmlStreamWriter.flush();
-//        writer.getBuffer().setLength(0);
-//        writer.getBuffer().trimToSize();
-//
-//        handleElement(traverseXML);
-//
-//        return this;
-//    }
 
     void addEmptyNodeWithOneTag(String name) throws Exception {
         xmlStreamWriter.writeEmptyElement(name);

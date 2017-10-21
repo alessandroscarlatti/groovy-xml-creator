@@ -1,5 +1,6 @@
 package com.scarlatti.attempt5
 
+import com.scarlatti.TestUtils
 import org.junit.Test
 import spock.lang.Specification
 
@@ -13,7 +14,7 @@ class Attempt5Test extends Specification {
     boolean shouldPrintDucks = true
 
     def setup() {
-       xml = XmlBuilder.defaultXmlBuilder().getXmlBuilder(this)
+       xml = XmlBuilder.defaultXmlBuilder()
     }
 
     @Test
@@ -27,10 +28,25 @@ class Attempt5Test extends Specification {
                     }
                     xml("Penguin", "Phil")
                     xml("Penguin", getName())
-                    addWoodpeckers()
+                    xml("Woodpeckers", woodpeckers)
                 }
-                xml("Ducks") {
-                    shouldPrintDucks ? "Y" : "N"
+
+                boolean shouldPrintFrogs = true
+
+                if (shouldPrintFrogs) {
+                    xml("Frogs") {
+                        if (shouldPrintFrogs) {
+                            "Y - " + TestUtils.getUtilName()
+                        } else {
+                            "N"
+                        }
+                    }
+                }
+
+                if (shouldPrintDucks) {
+                    xml("Ducks") {
+                        shouldPrintDucks ? "Y" : "N"
+                    }
                 }
             }
 
@@ -42,9 +58,10 @@ class Attempt5Test extends Specification {
         return "Phillip"
     }
 
-    void addWoodpeckers() {
-        xml("Woodpeckers") {
-            xml("Woodpecker", "Charlotte")
-        }
+    def woodpeckers = {
+        xml("Woodpecker", "Charlotte")
+        xml("Woodpecker", "Annie")
+        xml("Woodpecker", "Quater")
+        xml("Woodpecker", "Phil")
     }
 }
