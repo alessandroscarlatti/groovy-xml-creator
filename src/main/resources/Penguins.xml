@@ -1,0 +1,15 @@
+<Penguins xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="./Penguins.xsd">
+    <Penguin>
+        <StuffedAnimal>Pinky</StuffedAnimal>
+        <StuffedAnimal>Twigs</StuffedAnimal>
+        <Pet>Blackie</Pet>
+        <Pet>Grayapple</Pet>
+
+        <Woodpecker>
+            <WPet>Caddie</WPet>
+            <WStuffedAnimal>Beans</WStuffedAnimal>
+        </Woodpecker>
+
+    </Penguin>
+</Penguins>

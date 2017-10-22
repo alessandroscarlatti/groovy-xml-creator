@@ -1,17 +1,18 @@
-package com.scarlatti
+package com.scarlatti.attempt2
 
 import org.w3c.dom.Element
 
-class ElementHandler {
+class ElementHandler2 {
 
     Element thisElement
     Closure traverseElement
 
-    ElementHandler(Element thisElement, Closure traverseElement) {
+    ElementHandler2(Element thisElement, Closure traverseElement) {
         this.thisElement = thisElement
         this.traverseElement = traverseElement
         this.traverseElement.delegate = this
-        this.traverseElement.resolveStrategy = Closure.DELEGATE_FIRST  // TODO can I delegate OWNER_FIRST, but have the parent ElementHandler ignore method missing calls while a child is working?
+        this.traverseElement.resolveStrategy = Closure.DELEGATE_FIRST
+        // TODO can I delegate OWNER_FIRST, but have the parent ElementHandler ignore method missing calls while a child is working?
     }
 
     /**
@@ -22,13 +23,36 @@ class ElementHandler {
     Element handleElement() {
         if (traverseElement != null) {
             String text = traverseElement()
-//            println "traverse finished for delegate ${thisElement.nodeName}"
 
             if (text != null)
                 addTextValue(text)
         }
 
         return thisElement
+    }
+
+    // TODO teach this metaclass about those methods
+    // overrides are OK even across multiple classes.
+    // we would have Spring managed creators...
+    // OR we could use a single instance, probably better in the case
+    // of hundreds of documents...
+    def methodMissing(String name, args) {
+//        // THIS WORKS
+//        ElementHandler.metaClass."$name" = { tagArgs ->
+//            delegate.handleTag(name, tagArgs)
+//        }
+
+        // THIS DOES NOT WORK!!
+//        ElementHandler.metaClass."$name" = ElementHandler.&handleTag
+
+        // add the method
+
+        handleTag(name, args)
+    }
+
+    def propertyMissing(String name) {
+
+        handleTag(name)
     }
 
     void createElement(String name) {
@@ -43,14 +67,7 @@ class ElementHandler {
         addNewElement(name, traverseElement)
     }
 
-    // TODO teach this metaclass about those methods
-    // overrides are OK even across multiple classes.
-    // we would have Spring managed creators...
-    // OR we could use a single instance, probably better in the case
-    // of hundreds of documnets...
-    def methodMissing(String name, args) {
-//        println "called Delegate ${this.thisElement.nodeName} with method $name"
-
+    void handleTag(String name, Object[] args = []) {
         if (args.length == 0)
             addEmptyNodeWithOneTag(name)
 
@@ -60,14 +77,6 @@ class ElementHandler {
         else if (args[0] instanceof Closure)
             addNewElement(name, (Closure) args[0])
     }
-
-
-    def propertyMissing(String name) {
-//        println "called Delegate ${thisElement.nodeName} for property $name"
-
-        addEmptyNodeWithOneTag(name)
-    }
-
 
     void addEmptyNodeWithOneTag(String name) {
         Element element = thisElement.ownerDocument.createElement(name)
@@ -90,7 +99,7 @@ class ElementHandler {
         Element element = thisElement.ownerDocument.createElement(name)
         thisElement.appendChild(element)
 
-        ElementHandler handler = new ElementHandler(element, traverseElement)
+        ElementHandler2 handler = new ElementHandler2(element, traverseElement)
         handler.handleElement()
 
         // TODO how to tell the difference between calling this when it will have nested elements, and when it will be a single element?  Could use child.hasChildren?

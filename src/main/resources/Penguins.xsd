@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!--element constraints-->
+    <xs:simpleType name="STRING_NOT_EMPTY">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!--root element-->
+    <xs:element name="Penguins">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+
+                <xs:element name="Penguin" minOccurs="0" >
+                    <xs:complexType >
+                        <xs:choice maxOccurs="unbounded">
+                            <xs:element name="Pet" type="STRING_NOT_EMPTY" minOccurs="0" />
+                            <xs:element name="StuffedAnimal" type="STRING_NOT_EMPTY" />
+
+                            <xs:element name="Woodpecker">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="WPet" />
+                                        <xs:element name="WStuffedAnimal" type="STRING_NOT_EMPTY" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
