@@ -1,15 +1,11 @@
 package com.scarlatti.attempt5;
 
-import com.scarlatti.attempt1.ElementHandlerStax;
 import groovy.lang.Closure;
-import groovy.lang.ClosureException;
-
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.StringWriter;
 
-//import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
-//import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
+import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
 
 /**
@@ -28,7 +24,7 @@ public class XmlBuilder {
         XmlBuilder xmlBuilder = new XmlBuilder();
 
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
-        xmlBuilder.xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(xmlBuilder.writer);
+        xmlBuilder.xmlStreamWriter = new IndentingXMLStreamWriter(xmlOutputFactory.createXMLStreamWriter(xmlBuilder.writer));
         // TODO close this stream, make this class implement closeable (spring context would close it)
 
         return new Handler(null, xmlBuilder);
@@ -68,6 +64,13 @@ public class XmlBuilder {
 
         public XmlBuilder doCall(Closure xml) throws Exception {
             System.out.println("doCall for xml: " + xml);
+
+            // reset the writer
+            builder.xmlStreamWriter.flush();
+            builder.writer.getBuffer().setLength(0);
+            builder.writer.getBuffer().trimToSize();
+
+            // run the xml
             xml.call();
             return builder;
         }
@@ -89,8 +92,6 @@ public class XmlBuilder {
             builder.addNewElement(name, xml);
             return builder;
         }
-
-
     }
 
     void addEmptyNodeWithOneTag(String name) throws Exception {

@@ -50,6 +50,13 @@ class Attempt5Test extends Specification {
                 }
             }
 
+            println "next xml:"
+            println xml {
+                xml ("WhatIsThisElement") {
+                    xml ("ThisIsAFunnyElement", "Haha!")
+                }
+            }
+
         then:
             notThrown(Exception)
     }
