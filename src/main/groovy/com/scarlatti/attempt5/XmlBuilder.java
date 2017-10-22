@@ -30,11 +30,6 @@ public class XmlBuilder {
         return new Handler(null, xmlBuilder);
     }
 
-    public XmlBuilder root(String name, Closure xml) {  // TODO could have empty root
-        System.out.println("printing the root");
-        return this;
-    }
-
     @Override
     public String toString() {
 
@@ -49,7 +44,7 @@ public class XmlBuilder {
     }
 
     // a Handler instance should be associated with an XMLBuilder instance.
-    static class Handler extends Closure {
+    static class Handler extends Closure<XmlBuilder> {
 
         XmlBuilder builder;
 
@@ -63,7 +58,7 @@ public class XmlBuilder {
         }
 
         public XmlBuilder doCall(Closure xml) throws Exception {
-            System.out.println("doCall for xml: " + xml);
+//            System.out.println("doCall for xml: " + xml);
 
             // reset the writer
             builder.xmlStreamWriter.flush();
@@ -76,19 +71,19 @@ public class XmlBuilder {
         }
 
         public XmlBuilder doCall(String name) throws Exception {
-            System.out.println("doCall for name: " + name);
+//            System.out.println("doCall for name: " + name);
             builder.addEmptyNodeWithOneTag(name);
             return builder;
         }
 
         public XmlBuilder doCall(String name, String text) throws Exception {
-            System.out.println("doCall for name: " + name + ", text: " + text);
+//            System.out.println("doCall for name: " + name + ", text: " + text);
             builder.addElementWithText(name, text);
             return builder;
         }
 
         public XmlBuilder doCall(String name, Closure xml) throws Exception {
-            System.out.println("doCall for name: " + name + ", xml: " + xml);
+//            System.out.println("doCall for name: " + name + ", xml: " + xml);
             builder.addNewElement(name, xml);
             return builder;
         }
@@ -114,7 +109,7 @@ public class XmlBuilder {
 
         Object val = handleElement(xml);
         if (val != null)
-            if (val instanceof String)
+            if (!(val instanceof XmlBuilder))
                 addTextValue(String.valueOf(val));
 
         xmlStreamWriter.writeEndElement();

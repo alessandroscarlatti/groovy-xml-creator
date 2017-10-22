@@ -15,35 +15,13 @@ import org.springframework.context.annotation.Configuration
 @Slf4j
 class App implements CommandLineRunner {
 
-    XMLCreatorGroovy xmlCreator = new XMLCreatorGroovy()
-
     static void main(String[] args) {
         SpringApplication.run(App.class, args)
     }
 
     @Override
     void run(String... args) throws Exception {
-        runGroovy()
-    }
 
-    void runGroovy() {
-
-    }
-
-    String simpleXmlString(Closure<Void> c) {
-        c.setDelegate(xmlCreator)
-//        c.setResolveStrategy(Closure.DELEGATE_FIRST)
-        c()
-        return xmlCreator.build()
-    }
-
-    void addXMLTagNames(XMLCreatorGroovy xmlCreatorGroovy, List<String> names) {
-        for (String name : names) {
-
-            xmlCreatorGroovy.class.metaClass."${name}" <<
-                    { Closure<?> nestedElementClosure -> xmlCreatorGroovy.element(name, nestedElementClosure)
-                    } << { -> xmlCreatorGroovy.element(name) }
-        }
     }
 
     void codeFromTheOtherDay() {
@@ -65,18 +43,5 @@ class App implements CommandLineRunner {
         }
 
         println sw
-
-//        String createXML = simpleXmlString {
-//            Root {
-//                Envelope {
-//                    (1..4).each {
-//                        Document {"asdf"}
-//                        Document2 {"asdf"}
-//                    }
-//                }
-//            }
-//        }
-//
-//        println createXML
     }
 }

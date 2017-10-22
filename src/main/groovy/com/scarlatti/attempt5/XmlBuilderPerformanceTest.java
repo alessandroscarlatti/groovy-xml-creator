@@ -10,12 +10,12 @@ public class XmlBuilderPerformanceTest {
 
         Long sum = 0L;
 
-        XmlCreator xmlCreator = new XmlCreator();
+        Demo demo = new Demo();
 
-        for (int count = 0; count < 1; count++) {
+        for (int count = 0; count < 50; count++) {
             Long startTime = System.nanoTime();
 
-            xmlCreator.do10000Xmls();
+            demo.do10000Xmls();
 
             Long endTime = System.nanoTime();
             Long durationCount = endTime - startTime;
