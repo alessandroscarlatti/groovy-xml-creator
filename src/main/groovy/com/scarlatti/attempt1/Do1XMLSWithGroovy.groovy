@@ -78,7 +78,7 @@ class Do1XMLSWithGroovy {
                 createElement("thing2") {
                     createElement("thing4")
                     createElement("thing4") { "qwer" }
-                    createElement("thing5") {
+                    createElement("fillInThing") {
                         for (int i = 0; i < 9; i++) {
                             if (shouldCreateElementX) {
                                 createElement("PcPullChecks") {

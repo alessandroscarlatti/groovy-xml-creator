@@ -74,7 +74,7 @@ public class JavaPerformanceTest {
             Element thing2 = doc.createElement("thing2");
             thing1.appendChild(thing2);
 
-            Element thing5 = doc.createElement("thing5");
+            Element thing5 = doc.createElement("fillInThing");
             thing2.appendChild(thing5);
 
             Element thing4_1 = doc.createElement("thing4");
