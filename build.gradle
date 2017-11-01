@@ -26,8 +26,10 @@ dependencies {
 	compile ('org.springframework.boot:spring-boot-starter')
 	compile 'org.slf4j:slf4j-api:+'
 	compile 'org.codehaus.groovy:groovy-all:2.4.7'
+//	compile 'xerces:xercesImpl:2.10.0'  // xerces is crazy!
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 	// https://mvnrepository.com/artifact/org.spockframework/spock-core
 	testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
+	testCompile group: 'xmlunit', name: 'xmlunit', version: '1.6'
 
 }

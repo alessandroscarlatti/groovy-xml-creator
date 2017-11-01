@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<purchase-request xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="./test.xsd">
+
+        <item>Widget</item>
+        <cost>5000</cost>
+        <signature-authority>Level1</signature-authority>
+
+</purchase-request>

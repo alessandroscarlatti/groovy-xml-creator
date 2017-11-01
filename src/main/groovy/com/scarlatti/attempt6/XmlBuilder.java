@@ -211,13 +211,23 @@ public class XmlBuilder {
         xmlStreamWriter.writeCharacters(text);
     }
 
+    /**
+     * A complex element starts with an opening tag,
+     * checks for an optionally returned String value from the
+     * nested closure.  The tag can then be closed around
+     * whatever content has been written within it.
+     *
+     * @param name the name of the tag.
+     * @param xml the nested xml closure to be executed.
+     * @throws Exception if streams fail.
+     */
     void addComplexElement(String name, Closure xml) throws Exception {
 
         xmlStreamWriter.writeStartElement(name);
 
         Object val = handleElement(xml);
         if (val != null)
-            if (!(val instanceof XmlBuilder))
+            if (!(val instanceof XmlBuilder))  // ignore XmlBuilders that have been returned from xml handler calls.
                 addTextValue(String.valueOf(val));
 
         xmlStreamWriter.writeEndElement();

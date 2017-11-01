@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+           xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+           vc:minVersion="1.1">
+
+    <xs:element name="purchase-request">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="item" type="xs:Name"/>
+                <xs:element name="cost" type="xs:nonNegativeInteger"/>
+                <xs:element name="signature-authority">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Level1"/>
+                            <xs:enumeration value="Level2"/>
+                            <xs:enumeration value="Level3"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
+            <!--<xs:assert test="(po:signature-authority eq 'Level1') and (xs:integer(po:cost) lt 10000)"/>-->
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
