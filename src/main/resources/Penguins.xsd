@@ -28,6 +28,14 @@
                                 </xs:complexType>
                             </xs:element>
 
+                            <xs:element name="Duck">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:minLength value="1" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+
                         </xs:choice>
                     </xs:complexType>
                 </xs:element>

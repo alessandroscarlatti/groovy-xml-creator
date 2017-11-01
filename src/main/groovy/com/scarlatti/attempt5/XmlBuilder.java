@@ -5,7 +5,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.StringWriter;
 
-import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
+//import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
 
 /**
@@ -24,7 +24,8 @@ public class XmlBuilder {
         XmlBuilder xmlBuilder = new XmlBuilder();
 
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
-        xmlBuilder.xmlStreamWriter = new IndentingXMLStreamWriter(xmlOutputFactory.createXMLStreamWriter(xmlBuilder.writer));
+//        xmlBuilder.xmlStreamWriter = new IndentingXMLStreamWriter(xmlOutputFactory.createXMLStreamWriter(xmlBuilder.writer));
+        xmlBuilder.xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(xmlBuilder.writer);
         // TODO close this stream, make this class implement closeable (spring context would close it)
 
         return new Handler(null, xmlBuilder);

@@ -9,7 +9,7 @@ class Demo {
         def xml = XmlBuilder.defaultXmlBuilder()
 
         for (int count = 0; count < 10000; count++) {
-            xml {
+            println xml {
                 boolean shouldCreateElementX = false
 
                 xml ("thing1") {
