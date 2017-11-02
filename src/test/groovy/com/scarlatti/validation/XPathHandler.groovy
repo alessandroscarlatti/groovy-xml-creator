@@ -29,10 +29,20 @@ class XPathHandler {
 //        this.metaClass.leftShift { String query ->
 //
 //        }
+
+        String.metaClass.div {XPathHandler query ->
+            println "div query $delegate"
+            return this.xpath(delegate)
+        }
     }
 
     def getAt(String query) {
-        println "left shift"
+        println "get at $query"
+        return this.xpath(query)
+    }
+
+    def leftShift(String query) {
+        println "leftShift $query"
         return this.xpath(query)
     }
 

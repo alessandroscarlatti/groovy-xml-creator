@@ -21,13 +21,17 @@ class ValidationExperiment extends Specification {
             assert "5000" == xpath["//cost"]
             assert xpath["//signature-authority='Level1'"]
 
-            assert "boolean(//item)" << xpath
-            assert "5000" == "//cost" << xpath
-            assert "//signature-authority='Level1'" << xpath
+            assert "boolean(//item)"/xpath
+            assert "5000" == "//cost"/xpath
+            assert "//signature-authority='Level1'"/xpath
 
-            assert "boolean(//item)" << xpath
-            assert "5000" == "//cost" << xpath
-            assert "//signature-authority='Level1'" << xpath
+//            assert "boolean(//item)" << xpath
+//            assert "5000" == "//cost" << xpath
+//            assert "//signature-authority='Level1'" << xpath
+//
+//            assert "boolean(//item)" << xpath
+//            assert "5000" == "//cost" << xpath
+//            assert "//signature-authority='Level1'" << xpath
         }
     }
 
@@ -58,7 +62,7 @@ class ValidationExperiment extends Specification {
     @Test
     "can also add test case specific xpath assertions"() {
         when:
-            String xml = '''
+            String xmlString = '''
         
         <purchase-request xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:noNamespaceSchemaLocation="./test.xsd">
@@ -73,12 +77,19 @@ class ValidationExperiment extends Specification {
         // TODO when do we add the xpath query handler, can we only do that
         // after the source has been added?  Or can it be dynamic behind
         // the scenes.  That might look like this:
-            def xpath = validator.getXpathQueryHandler()
+
+            def exec = new XPathHandler(xmlString)
+            def xpath = new XPathHandler(xmlString)
+
         then:
-            validator.validateXml(xml)
+            validator.validateXml(xmlString)
 
             xpath["boolean(//item)"]
             "5000" == xpath["//cost"]
             xpath["//signature-authority='Level1'"]
+
+            "boolean(//item)"/exec
+            "5000" == "//cost"/exec
+            "//signature-authority='Level2'"/exec
     }
 }

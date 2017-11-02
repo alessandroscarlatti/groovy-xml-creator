@@ -34,15 +34,27 @@
 		assert "boolean(//item)"|xpath
 		assert "5000" == "//cost"|xpath
 		assert "//signature-authority='Level1'"|xpath
+
+		assert "boolean(//item)"|xml
+		assert "5000" == "//cost"|xml
+		assert "//signature-authority='Level1'"|xml
 		
 		assert "boolean(//item)" ** xpath
 		assert "5000" == "//cost" ** xpath
 		assert "//signature-authority='Level1'" ** xpath
+
+		assert "boolean(//item)" ** xml
+		assert "5000" == "//cost" ** xml
+		assert "//signature-authority='Level1'" ** xml
 		
 		// I keep being drawn to this one...
 		assert "boolean(//item)"[xpath]
 		assert "5000" == "//cost"[xpath]
 		assert "//signature-authority='Level1'"[xpath]
+
+		assert "boolean(//item)"[xml]
+		assert "5000" == "//cost"[xml]
+		assert "//signature-authority='Level1'"[xml]
 		
 		// assuming we can override only the method that takes my handler
 		assert "boolean(//item)".xpath(handler)
@@ -61,6 +73,10 @@
 		assert "boolean(//item)"/xpath
 		assert "5000" == "//cost"/xpath
 		assert "//signature-authority='Level1'"/xpath
+
+		assert "boolean(//item)"/xml
+		assert "5000" == "//cost"/xml
+		assert "//signature-authority='Level1'"/xml
 		
 		assert "boolean(//item)" / xpath
 		assert "5000" == "//cost" / xpath
