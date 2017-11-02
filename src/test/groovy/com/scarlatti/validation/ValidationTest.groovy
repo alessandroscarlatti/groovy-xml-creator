@@ -72,7 +72,7 @@ class ValidationTest extends Specification {
         '''
 
             /**
-             * This could be overloaded to accept a DOM document
+             * This could be overloaded to accept a DOM validator
              * TODO accept my own custom String class to be certain
              * OR just check that there is not already an existing method.
              *
@@ -92,6 +92,21 @@ class ValidationTest extends Specification {
             "boolean(//item)"  >> xml
             "5000" == "//cost" >> xml
             "//signature-authority='Level1'" >> xml
+    }
+
+    /**
+     * Spock can outsorce assertions to another method.
+     * This would be useful for an xml validation utility.
+     */
+    @Test
+    "Spock can outsource asserts to another method"() {
+        expect:
+            doSomeAssertions()
+    }
+
+    private static void doSomeAssertions() {
+        assert 2 == 2
+        assert 3 == 2  // should produce the familiar spock assertion, since Spock uses groovy assertions.
     }
 
     /**
